@@ -2,14 +2,10 @@ package com.davidorellana.dbpostgresql.user.model.data;
 
 import com.davidorellana.dbpostgresql.purchase.model.data.Purchase;
 import com.davidorellana.dbpostgresql.user.model.dto.UserDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.websocket.OnMessage;
 
 import java.io.Serial;
 import java.io.Serializable;

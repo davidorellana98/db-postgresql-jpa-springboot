@@ -1,8 +1,13 @@
 package com.davidorellana.dbpostgresql.user.model.dto;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class UserDto {
+public class UserDto implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String lastName;

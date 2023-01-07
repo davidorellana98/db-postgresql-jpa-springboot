@@ -2,7 +2,13 @@ package com.davidorellana.dbpostgresql.product.model.dto;
 
 import com.davidorellana.dbpostgresql.product.model.data.Ranking;
 
-public class ProductDto {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class ProductDto implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String nameProduct;
     private String brand;

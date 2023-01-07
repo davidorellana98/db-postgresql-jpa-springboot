@@ -2,7 +2,6 @@ package com.davidorellana.dbpostgresql.product.service;
 
 import com.davidorellana.dbpostgresql.product.model.data.Product;
 import com.davidorellana.dbpostgresql.product.model.dto.ProductDto;
-import com.davidorellana.dbpostgresql.product.repository.ProductRepository;
 import com.davidorellana.dbpostgresql.product.repository.ProductRepositoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

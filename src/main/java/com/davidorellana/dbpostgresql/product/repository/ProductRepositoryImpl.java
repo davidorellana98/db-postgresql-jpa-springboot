@@ -2,13 +2,10 @@ package com.davidorellana.dbpostgresql.product.repository;
 
 import com.davidorellana.dbpostgresql.product.model.data.Product;
 import com.davidorellana.dbpostgresql.product.model.dto.ProductDto;
-import com.davidorellana.dbpostgresql.purchase.model.data.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import javax.naming.ldap.SortKey;
 import java.util.List;
 import java.util.Optional;
 

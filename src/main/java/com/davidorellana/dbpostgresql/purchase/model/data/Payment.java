@@ -1,5 +1,5 @@
 package com.davidorellana.dbpostgresql.purchase.model.data;
 
 public enum Payment {
-    CASH, CARD, PAYPAL
+    CASH, CARD, PAYPAL, ALIPAY, BITCOIN
 }

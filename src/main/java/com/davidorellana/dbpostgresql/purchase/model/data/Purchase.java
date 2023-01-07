@@ -3,7 +3,6 @@ package com.davidorellana.dbpostgresql.purchase.model.data;
 import com.davidorellana.dbpostgresql.product.model.data.Product;
 import com.davidorellana.dbpostgresql.purchase.model.dto.PurchaseDto;
 import com.davidorellana.dbpostgresql.user.model.data.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -13,9 +12,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "purchases")
@@ -36,7 +35,7 @@ public class Purchase implements Serializable {
     @Column(name = "date_purchase")
     private LocalDate datePurchase;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Specify your payment method (CASH, CARD, PAYPAL).")
+    @NotNull(message = "Specify your payment method (CASH, CARD, PAYPAL, ALIPAY, BITCOIN).")
     private Payment payment;
     @Column(name = "price_total_purchase")
     @Min(value = 0, message = "The minimum total price of a purchase must be 0.")
@@ -46,8 +45,12 @@ public class Purchase implements Serializable {
     @JoinColumn(name = "id_user", insertable = false, updatable = false)
     private User user;
 
-    @ManyToMany
-    @JoinColumn(name = "id_product", insertable = false, updatable = false)
+    @JoinTable(
+            name = "purchases_product",
+            joinColumns = @JoinColumn(name = "fk_purchase", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "fk_product", nullable = false)
+    )
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Product> product;
 
     public Purchase() { }
@@ -122,6 +125,13 @@ public class Purchase implements Serializable {
 
     public void setProduct(List<Product> product) {
         this.product = product;
+    }
+
+    public void addProducts(Product product){
+        if (this.product == null){
+            this.product = new ArrayList<>();
+        }
+        this.product.add(product);
     }
 
     @Override

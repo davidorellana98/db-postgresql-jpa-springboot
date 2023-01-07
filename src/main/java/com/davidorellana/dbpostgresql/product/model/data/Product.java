@@ -39,7 +39,7 @@ public class Product implements Serializable {
     @Column(name = "image_product")
     private String imageProduct;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @ManyToMany(mappedBy = "product")
     List<Purchase> purchase;
 
     public Product() { }

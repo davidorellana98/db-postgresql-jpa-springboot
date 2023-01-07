@@ -3,16 +3,16 @@ package com.davidorellana.dbpostgresql.product.controller;
 import com.davidorellana.dbpostgresql.product.model.data.Product;
 import com.davidorellana.dbpostgresql.product.model.dto.ProductDto;
 import com.davidorellana.dbpostgresql.product.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/v1/products")
 public class ProductController {
 
@@ -38,20 +38,20 @@ public class ProductController {
         if (productById != null) {
             return new ResponseEntity<>(productById, HttpStatus.OK);
         }
-        return new ResponseEntity("That product id does not exist!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity("That product id does not exist!", HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto) {
-        Optional<Product> productValidation = Optional.ofNullable(productService.createProduct(productDto));
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDto productDto) {
+        Product productValidation = productService.createProduct(productDto);
         if (productValidation != null) {
             return new ResponseEntity("Created product!", HttpStatus.CREATED);
         }
-        return new ResponseEntity("Product not created!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("Product not created!", HttpStatus.CONFLICT);
     }
 
     @PutMapping("/{idProduct}")
-    public ResponseEntity<Product> updateProductById(@PathVariable Long idProduct, @RequestBody ProductDto productDto) {
+    public ResponseEntity<Product> updateProductById(@PathVariable Long idProduct, @RequestBody @Valid ProductDto productDto) {
         Product productUpdated = productService.updateProductById(idProduct, productDto);
         if (productUpdated != null){
             return new ResponseEntity("Updated product!", HttpStatus.OK);

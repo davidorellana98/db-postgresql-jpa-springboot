@@ -1,4 +1,4 @@
-<h1 align="center">DB con PostgreSQL | User - Purchase - Product</h1>
+<h1 align="center">Persistencia de datos con PostgreSQL | Microservicios ➤ User - Purchase - Product</h1>
 
 ## Diagrama Entidad Relación 📝
 

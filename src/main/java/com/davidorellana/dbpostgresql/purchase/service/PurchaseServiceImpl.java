@@ -40,14 +40,4 @@ public class PurchaseServiceImpl implements PurchaseService {
     public Boolean deletePurchaseById(Long idPurchase) {
         return purchaseRepositoryDao.deletePurchaseById(idPurchase);
     }
-
-    @Override
-    public List<Purchase> findByIdUser(Long idUser) {
-        return purchaseRepositoryDao.findByIdUser(idUser);
-    }
-
-    @Override
-    public List<Purchase> findByIdProduct(Long idProduct) {
-        return purchaseRepositoryDao.findByIdProduct(idProduct);
-    }
 }

@@ -1,13 +1,13 @@
 package com.davidorellana.dbpostgresql.purchase.repository;
 
+import com.davidorellana.dbpostgresql.product.model.data.Product;
+import com.davidorellana.dbpostgresql.product.service.ProductService;
 import com.davidorellana.dbpostgresql.purchase.model.data.Purchase;
 import com.davidorellana.dbpostgresql.purchase.model.dto.PurchaseDto;
-import com.davidorellana.dbpostgresql.user.model.data.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +17,9 @@ public class PurchaseRepositoryImpl implements PurchaseRepositoryDao {
     @Autowired
     @Lazy
     private PurchaseRepository purchaseRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @Override
     public List<Purchase> getAllPurchases() {
@@ -35,6 +38,10 @@ public class PurchaseRepositoryImpl implements PurchaseRepositoryDao {
     @Override
     public Purchase createPurchase(PurchaseDto purchaseDto) {
         Purchase newPurchase = new Purchase(purchaseDto);
+        for (Long productId : purchaseDto.getIdProducts()) {
+            Product productFound = productService.findProductById(productId);
+            newPurchase.addProducts(productFound);
+        }
         return purchaseRepository.save(newPurchase);
     }
 
@@ -56,21 +63,5 @@ public class PurchaseRepositoryImpl implements PurchaseRepositoryDao {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public List<Purchase> findByIdUser(Long idUser) {
-        if (getAllPurchases().listIterator().next().getIdUser() != idUser) {
-            return purchaseRepository.findByIdUser(idUser);
-        }
-        return getAllPurchases();
-    }
-
-    @Override
-    public List<Purchase> findByIdProduct(Long idProduct) {
-        if (getAllPurchases().listIterator().next().getIdProduct() != idProduct) {
-            return purchaseRepository.findByIdProduct(idProduct);
-        }
-        return getAllPurchases();
     }
 }

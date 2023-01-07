@@ -3,17 +3,16 @@ package com.davidorellana.dbpostgresql.purchase.controller;
 import com.davidorellana.dbpostgresql.purchase.model.data.Purchase;
 import com.davidorellana.dbpostgresql.purchase.model.dto.PurchaseDto;
 import com.davidorellana.dbpostgresql.purchase.service.PurchaseService;
-import com.davidorellana.dbpostgresql.user.model.data.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/v1/purchases")
 public class PurchaseController {
 
@@ -39,19 +38,19 @@ public class PurchaseController {
         if (purchaseById != null) {
             return new ResponseEntity<>(purchaseById, HttpStatus.OK);
         }
-        return new ResponseEntity("That purchase id does not exist!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity("That purchase id does not exist!", HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<Purchase> createPurchase(@RequestBody PurchaseDto purchaseDto){
-        Optional<Purchase> purchaseValidation = Optional.ofNullable(purchaseService.createPurchase(purchaseDto));
+    public ResponseEntity<Purchase> createPurchase(@RequestBody @Valid PurchaseDto purchaseDto){
+        Purchase purchaseValidation = purchaseService.createPurchase(purchaseDto);
         if (purchaseValidation != null) {
             return new ResponseEntity("Created purchase!", HttpStatus.CREATED);
         }
-        return new ResponseEntity("Purchase not created!", HttpStatus.BAD_REQUEST);    }
+        return new ResponseEntity("Purchase not created!", HttpStatus.CONFLICT);    }
 
     @PutMapping("/{idPurchase}")
-    public ResponseEntity<Purchase> updatePurchaseById(@PathVariable Long idPurchase, @RequestBody PurchaseDto purchaseDto){
+    public ResponseEntity<Purchase> updatePurchaseById(@PathVariable Long idPurchase, @RequestBody @Valid PurchaseDto purchaseDto){
         Purchase purchaseUpdated = purchaseService.updatePurchaseById(idPurchase, purchaseDto);
         if (purchaseUpdated != null){
             return new ResponseEntity("Updated purchase!", HttpStatus.OK);
@@ -69,15 +68,5 @@ public class PurchaseController {
         }
         return new ResponseEntity("The purchase does not exist to be deleted!", HttpStatus.NOT_FOUND);
 
-    }
-
-    @GetMapping("/purchasesByUserId/{idUser}")
-    public ResponseEntity<List<Purchase>> findByIdUser(@PathVariable Long idUser){
-        return new ResponseEntity<>(purchaseService.findByIdUser(idUser), HttpStatus.OK);
-    }
-
-    @GetMapping("/purchasesByProductId/{idProduct}")
-    public ResponseEntity<List<Purchase>> findByIdProduct(@PathVariable Long idProduct){
-        return new ResponseEntity<>(purchaseService.findByIdProduct(idProduct), HttpStatus.OK);
     }
 }

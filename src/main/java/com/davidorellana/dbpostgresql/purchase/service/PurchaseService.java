@@ -12,6 +12,4 @@ public interface PurchaseService {
     Purchase createPurchase(PurchaseDto purchaseDto);
     Purchase updatePurchaseById(Long idPurchase, PurchaseDto purchaseDto);
     Boolean deletePurchaseById(Long idPurchase);
-    List<Purchase> findByIdUser(Long idUser);
-    List<Purchase> findByIdProduct(Long idProduct);
 }
